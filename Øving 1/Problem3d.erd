@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<diagram height="1800" made_with_version="1.6" name="Default" width="2500">
+<entity id="0" is_weak="false" name="Cinema" x="575" y="748">
+<attributes>
+<attribute is_hidden="false" is_key="true" name="CinemaID" type=""/>
+<attribute is_hidden="false" is_key="false" name="Name" type=""/>
+<attribute is_hidden="false" is_key="false" name="PhoneNumber" type=""/>
+</attributes>
+</entity>
+<entity id="1" is_weak="true" name="ScreenRoom" x="555" y="1028">
+<attributes>
+<attribute is_hidden="false" is_key="true" name="ScreenRoomID" type=""/>
+<attribute is_hidden="false" is_key="false" name="Capacity" type=""/>
+<attribute is_hidden="false" is_key="false" name="AvailabeForRent" type=""/>
+</attributes>
+</entity>
+<entity id="5" is_weak="true" name="Movies" x="974" y="1017">
+<attributes>
+<attribute is_hidden="true" is_key="false" name="3D" type="Boolean"/>
+<attribute is_hidden="false" is_key="true" name="MovieID" type="Integer"/>
+<attribute is_hidden="false" is_key="false" name="Title" type=""/>
+<attribute is_hidden="false" is_key="false" name="Duration" type=""/>
+</attributes>
+</entity>
+<diamond id="2" is_weak="true" name="ScreenAtCinema" x="603" y="889">
+<attributes/>
+</diamond>
+<diamond id="6" is_weak="false" name="Shown at" x="777" y="1048">
+<attributes/>
+</diamond>
+<line cardinality_string="(1,n)" has_u="false" id="3" is_weak="false" role="" style="0" turned="false">
+<connection connection_side="3" direction="1" object_id="0" relation_point_x="624" relation_point_y="823"/>
+<connection connection_side="1" direction="1" object_id="2" relation_point_x="619" relation_point_y="889"/>
+</line>
+<line cardinality_string="(1,1)" has_u="false" id="4" is_weak="false" role="" style="0" turned="false">
+<connection connection_side="1" direction="1" object_id="1" relation_point_x="614" relation_point_y="1028"/>
+<connection connection_side="3" direction="1" object_id="2" relation_point_x="619" relation_point_y="921"/>
+</line>
+<line cardinality_string="(0,n)" has_u="false" id="7" is_weak="false" role="" style="0" turned="false">
+<connection connection_side="2" direction="0" object_id="1" relation_point_x="673" relation_point_y="1070"/>
+<connection connection_side="3" direction="1" object_id="6" relation_point_x="793" relation_point_y="1080"/>
+</line>
+<line cardinality_string="(1,n)" has_u="false" id="8" is_weak="false" role="" style="0" turned="false">
+<connection connection_side="0" direction="0" object_id="5" relation_point_x="974" relation_point_y="1059"/>
+<connection connection_side="2" direction="0" object_id="6" relation_point_x="809" relation_point_y="1064"/>
+</line>
+</diagram>
