@@ -1,4 +1,4 @@
-Oppgave 1)
+﻿Oppgave 1)
 1. Total spesialisering og disjunkte subklasser
 >> Total spesialisering betyr at alle entitene i superentitetstypen må være med i minst èn av subentitetstypene.
 >> Disjunkte subklasser betyr at superentitetstypen kan maks være i en av subklassene.
@@ -20,4 +20,14 @@ Oppgave 3)
 1. Primærnøkkel og entitetsintegritet
 >> Primærnøkkel er den attributen som er unik for hver eneste entitet. Dermed er det dette som gjør det mulig å skille mellom ulike instanser av en entitetsklasse. Derfor bryter man entitetsintegriteten dersom det eksisterer to like primærnøkler eller dersom primærnøkkelen er NULL, for da kan det bli umulig å skille mellom ulike entiteter.
 2. Fremmednøkkel og referanseintegritet
->> Fremmednøkkel er den attributen som referer til andre entiteter i samme eller andre databaser. Dersom det finnes to eller flere like av disse blir det umulig å skille entiteter fra hverandre, noe som kan føre til feil i databasen. 
+>> Fremmednøkkel er den attributen som referer til andre entiteter i samme eller andre databaser. Dersom det finnes to eller flere like av disse blir det umulig å skille entiteter fra hverandre, noe som kan føre til feil i databasen.
+
+Oppgave 4)
+1. Oversettelse ER -> RDB
+>> Eksamen(Eksamensnr, Fagkode, Hjelpemiddelkode)
+>> Student(StudentNr, Navn)
+>> HarEksamen(EksamensNr, StudentNr) – Binder sammen studenter og eksamen. Ingen NULL
+>> Oppsatt(EksamensNr, StudentNr, Dato, StudentPlassering, RomNr) – Binder student, Eksamen og eksamenslokale sammen med dato og plassering.
+>> Eksamenslokale(RomNr, Navn, Kapasitet)
+>> Bord(BordNr, Type, RomNr) – RomNr binder lokale og bord sammen. IKKE NULL
+>> Stol(StolNr, Type, RomNr) – Samme.
