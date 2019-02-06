@@ -16,6 +16,10 @@ Overlappende og delvis
 >> Figur 4 er syntaktisk gal, for man kan ikke ha en "is a" forbindelse til ingenting. Disjunkt betyr også at linjene inn er subklasser, og må derfor ha en superklasse.
 >> Figur 1. Kan ikke ha en relasjonsforbindelse til en spesialisering. Spesialiseringen skjer på entiteten, ikke relasjonen.
 
+Oppgave 2)
+
+![picture](Oppgave2.png)
+
 Oppgave 3)
 1. Primærnøkkel og entitetsintegritet
 >> Primærnøkkel er den attributen som er unik for hver eneste entitet. Dermed er det dette som gjør det mulig å skille mellom ulike instanser av en entitetsklasse. Derfor bryter man entitetsintegriteten dersom det eksisterer to like primærnøkler eller dersom primærnøkkelen er NULL, for da kan det bli umulig å skille mellom ulike entiteter.
@@ -24,10 +28,52 @@ Oppgave 3)
 
 Oppgave 4)
 1. Oversettelse ER -> RDB
->> Eksamen(Eksamensnr, Fagkode, Hjelpemiddelkode)
->> Student(StudentNr, Navn)
->> HarEksamen(EksamensNr, StudentNr) – Binder sammen studenter og eksamen. Ingen NULL
->> Oppsatt(EksamensNr, StudentNr, Dato, StudentPlassering, RomNr) – Binder student, Eksamen og eksamenslokale sammen med dato og plassering.
->> Eksamenslokale(RomNr, Navn, Kapasitet)
->> Bord(BordNr, Type, RomNr) – RomNr binder lokale og bord sammen. IKKE NULL
->> Stol(StolNr, Type, RomNr) – Samme.
+>> Eksamen(Eksamensnr(PK), Fagkode, Hjelpemiddelkode)
+
+>> Student(StudentNr(PK), Navn)
+
+>> HarEksamen(EksamensNr(PK og FK), StudentNr(PK og FK)) – Binder sammen studenter og eksamen. Ingen NULL
+
+>> Oppsatt(EksamensNr(PK og FK), StudentNr(PK og FK), Dato, StudentPlassering, RomNr(PK og FK)) – Binder student, Eksamen og eksamenslokale sammen med dato og plassering.
+
+>> Eksamenslokale(RomNr(PK), Navn, Kapasitet)
+
+>> Bord(BordNr(PK), Type, RomNr(FK)) – RomNr binder lokale og bord sammen. IKKE NULL
+
+>> Stol(StolNr(PK), Type, RomNr(FK)) – Samme.
+
+2. Relasjonsalgebra
+>> π Hotellnr,Navn(Hotell) 
+---------------------------
+
+>>π Hotellnr, Navn(σ Omraade == "Barcelona" (Hotell))
+------------------------------------------------------
+
+>>Joined = Hotell ⋈ Hotellrom
+
+>>Over100kvm = σ m2str>100 (Joined)
+
+>>RomNrOgNavn = π HotellNr,Navn (Over100kvm)
+---------------------------------------------
+
+>> Joined = (Rombestilling⋈Hotellrom)
+
+>> (σ Varighet>7 (Joined)) 
+
+>> F BestillingsNr (Joined)
+---------------------------------------
+>>KundeogRomb = Kunde ⋈ Rombestilling
+
+>>HotellogRom = Hotell⋈Hotellrom
+
+>>Alt = KundeogRomb ⋈ HotellogRom
+
+>>TelefonnummerogNavn = π Fornavn,Etternavn,Telefonnr(σ Omraade == "Madrid"(Alt))
+----------------------------------------------------------------------------
+>>Lettere = π Fornavn, Etternavn, Varighet (KundeogRomb)
+
+>>OleTabell = σ Fornavn == "Ole"(Lettere)
+
+>>OgHansen = σ Etternavn == "Hansen" (OleTabell)
+
+>>Sortert = Varighet ASC
