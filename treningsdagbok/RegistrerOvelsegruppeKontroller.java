@@ -22,7 +22,7 @@ public class RegistrerOvelsegruppeKontroller extends DBConn {
     public void PrintOvelseGruppeOvelser(){
         try {
             Statement stmt = conn.createStatement();
-            String query = "SELECT navn, klubb, lopstid FROM Loper WHERE klasse='"+klasseNavn+"' and status='ok' order by lopstid";
+            String query = "SELECT Ovelsegruppenavn, Ovelsesnavn FROM (Ovelsegruppe INNER JOIN Ovelsegruppetilhorighet ON Ovelsegruppe.Ovelsegruppenavn = Ovelsegruppetilhorighet.Ovelsegruppenavn) INNER JOIN Ovelse ON Ovelsegruppetilhorighet.Ovelsesnavn = Ovelse.Ovelsesnavn ORDER BY Ovelsegruppenavn";
             //System.out.println(query);
             
             ResultSet rs = stmt.executeQuery(query);

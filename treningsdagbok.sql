@@ -12,7 +12,7 @@
     create table Notat (
 		OktID integer not null,
         NotatID integer not null,
-        Treningsformål varchar(500),
+        Treningsformal varchar(500),
         primary key(OktID,NotatID),
         foreign key(OktID) references Treningsokt(OktID)
 								on update cascade

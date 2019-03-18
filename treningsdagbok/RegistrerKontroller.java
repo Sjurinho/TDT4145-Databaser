@@ -6,29 +6,32 @@ import java.util.*;
 public class RegistrerKontroller extends DBConn{
     private PreparedStatement regStatement;
 
-    //Treningsøkt
-    public void regTreningsokt(int OktID, Date Dato, Time Tidspunkt, int Varighet, int PersonligForm, int Prestasjon){
+    //Treningsokt
+    public void regTreningsokt(int OktID, java.sql.Date Dato, java.sql.Timestamp Tidspunkt, java.sql.Time Varighet, int PersonligForm, int Prestasjon){
         try {
-            regStatement = conn.prepareStatement("INSERT INTO Treningsokt VALUES ((?), (?), (?), (?), (?), (?))");
+            regStatement = conn.prepareStatement("INSERT INTO Treningsokt VALUES ( (?), (?), (?), (?), (?), (?) )");
         } catch (Exception e) {
             System.out.println("db error during prepare of insert into Reg");
         }
         if (OktID > 0) {
             try {
+                System.out.println("Kommer inn");
                 regStatement.setInt(1, OktID);
                 regStatement.setDate(2, Dato);
-                regStatement.setTime(3, Tidspunkt);
-                regStatement.setInt(4, Varighet);
+                System.out.println("Kommer forbi dato");
+                regStatement.setTimestamp(3, Tidspunkt);
+                regStatement.setTime(4, Varighet);
                 regStatement.setInt(5, PersonligForm);
                 regStatement.setInt(6, Prestasjon);
                 regStatement.execute();
             } catch (Exception e) {
+                System.out.println(e.toString());
                 System.out.println("db error during insert of Treningsokt");
             }
         }
     }
 
-    //friØvelse
+    //friOvelse
     public void regOvelse(String Ovelsesnavn, String beskrivelse){
         //Ovelse(Ovelsesnavn)
         try {
@@ -55,7 +58,7 @@ public class RegistrerKontroller extends DBConn{
         }
     }
 
-    //ApparatØvelse
+    //ApparatOvelse
     public void regOvelse(String Ovelsesnavn, int ApparatID){
         //Ovelse(Ovelsesnavn)
         try {
