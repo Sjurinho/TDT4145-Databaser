@@ -2,6 +2,12 @@
     "configurations": [
         {
             "type": "java",
+            "name": "CodeLens (Launch) - Resultatlogg",
+            "request": "launch",
+            "mainClass": "Resultatlogg"
+        },
+        {
+            "type": "java",
             "name": "CodeLens (Launch) - RegistrerOvelsegruppe",
             "request": "launch",
             "mainClass": "treningsdagbok.RegistrerOvelsegruppe"

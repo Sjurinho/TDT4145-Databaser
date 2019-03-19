@@ -15,10 +15,8 @@ public class RegistrerKontroller extends DBConn{
         }
         if (OktID > 0) {
             try {
-                System.out.println("Kommer inn");
                 regStatement.setInt(1, OktID);
                 regStatement.setDate(2, Dato);
-                System.out.println("Kommer forbi dato");
                 regStatement.setTimestamp(3, Tidspunkt);
                 regStatement.setTime(4, Varighet);
                 regStatement.setInt(5, PersonligForm);
@@ -41,6 +39,7 @@ public class RegistrerKontroller extends DBConn{
         }
         try {
             regStatement.setString(1, Ovelsesnavn);
+            regStatement.execute();
         } catch (Exception e) {
             System.out.println("db error during insert of Ovelse");
         }
@@ -68,20 +67,22 @@ public class RegistrerKontroller extends DBConn{
         }
         try {
             regStatement.setString(1, Ovelsesnavn);
+            regStatement.execute();
         } catch (Exception e) {
             System.out.println("db error during insert of Ovelse");
         }
         //ApparatOvelse(ApparatID)
         try {
-            regStatement = conn.prepareStatement("INSERT INTO ApparatOvelse VALUES ((?))");
+            regStatement = conn.prepareStatement("INSERT INTO Apparatovelse VALUES ((?), (?))");
         } catch (Exception e) {
-            System.out.println("db error during prepare of insert into ApparatOvelse");
+            System.out.println("db error during prepare of insert into Apparatovelse");
         }
         try {
-            regStatement.setInt(1, ApparatID);
+            regStatement.setString(1, Ovelsesnavn);
+            regStatement.setInt(2, ApparatID);
             regStatement.execute();
         } catch (Exception e) {
-            System.out.println("db error during insert of ApparatOvelse");
+            System.out.println("db error during insert of Apparatovelse: "+ e);
         }
     }
 
@@ -90,7 +91,7 @@ public class RegistrerKontroller extends DBConn{
         try {
             regStatement = conn.prepareStatement("INSERT INTO Apparat VALUES ((?), (?), (?))");
         } catch (Exception e) {
-            System.out.println("db error during prepare of insert into Apparat");
+            System.out.println("db error during prepare of insert into Apparat:" + e);
         }
 
         try {
@@ -99,9 +100,15 @@ public class RegistrerKontroller extends DBConn{
             regStatement.setString(3, Apparatbeskrivelse);
             regStatement.execute();
         } catch (Exception e) {
-            System.out.println("db error during insert of Apparat");
+            System.out.println("db error during insert of Apparat:" + e);
         }
 
     }
+
+
+
+
+
+    
 
 }

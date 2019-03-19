@@ -23,17 +23,25 @@ public class RegistrerOvelsegruppeKontroller extends DBConn {
         try {
             Statement stmt = conn.createStatement();
             String query = "SELECT Ovelsegruppenavn, Ovelsesnavn FROM (Ovelsegruppe INNER JOIN Ovelsegruppetilhorighet ON Ovelsegruppe.Ovelsegruppenavn = Ovelsegruppetilhorighet.Ovelsegruppenavn) INNER JOIN Ovelse ON Ovelsegruppetilhorighet.Ovelsesnavn = Ovelse.Ovelsesnavn ORDER BY Ovelsegruppenavn";
-            //System.out.println(query);
+            Map<String, List<String>> grupper = new Hashmap<>();
             
             ResultSet rs = stmt.executeQuery(query);
-            int nr = 1;
-            System.out.println("Resultatliste for klasse "+klasseNavn);
             while (rs.next()) {
-             System.out.println(" " + nr++ + " "+ rs.getString("navn") + " " + rs.getString("klubb") + " " + rs.getInt("lopstid"));
-         }
+
+                List<String> ovelser = new ArrayList<>();
+                ovgr = rs.getString("Ovelsegruppenavn");
+
+                ov = rs.getString("Ovelsenavn");
+                if (grupper.containsKey(ov)){
+
+                }
+                System.out.println( ovgr+ " " + ov);
+            }
              
-          } catch (Exception e) {
-             System.out.println("db error during select of loper = "+e);
-         }
+        } catch (Exception e) {
+                System.out.println("db error during select of loper = "+e);
+        }
     }
+    
+
 }

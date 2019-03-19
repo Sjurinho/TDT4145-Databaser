@@ -19,5 +19,13 @@ public class main_test {
         Oktinfo okt = new Oktinfo();
         okt.connect();
         okt.PrintOkt(10);
+        Scanner scanner = new Scanner(System.in);
+        String input = scanner.nextLine();
+        System.out.println(input);
+
+        RegistrerOvelsegruppeKontroller ogk = new RegistrerOvelsegruppeKontroller();
+        ogk.connect();
+        ogk.RegistrerOvelsegruppe("Bryst");
+
     }
 }
