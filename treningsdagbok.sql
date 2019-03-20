@@ -1,6 +1,6 @@
 
     create table Treningsokt (
-		OktID integer not null auto_increment,
+		OktID integer not null,
         Dato date,
         Tidspunkt timestamp,
         Varighet time,
@@ -10,7 +10,7 @@
     );
     
     create table Notat (
-		OktID integer not null auto_increment,
+		OktID integer not null,
         NotatID integer not null,
         Treningsformal varchar(500),
         primary key(OktID,NotatID),
@@ -20,7 +20,7 @@
     );
     
     create table Apparat(
-		ApparatID integer not null auto_increment,
+		ApparatID integer not null,
         Apparatnavn varchar(40),
         Apparatbeskrivelse varchar(500),
         primary key(ApparatID)
@@ -69,7 +69,9 @@
     );
     
     create table Treningsoktovelse(
-		OktID integer not null auto_increment,
+		OktID integer not null,
+        AntallSett integer,
+        AntallKilo integer,
         Ovelsesnavn varchar(40) not null,
         primary key(OktID,Ovelsesnavn),
         foreign key(OktID) references Treningsokt(OktID)

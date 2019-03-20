@@ -25,9 +25,16 @@ public class Oktinfo extends DBConn{
             System.out.format(leftAlignFormat, rs.getInt("OktID"), rs.getDate("Dato"), rs.getTimestamp("Tidspunkt"), rs.getTime("Varighet"), rs.getInt("PersonligForm"), rs.getInt("Prestasjon"), rs.getInt("NotatID"), rs.getString("Treningsformal"));
          }
          System.out.format("+-------+------------+-------------------------+----------+----------------+------------+---------+----------------------+%n");
+         stmt.close();
           } catch (Exception e) {
              System.out.println("db error during select of treningsokt = "+e);
          }
+    }
+
+    public static void main(String[] args) {
+        Oktinfo okt = new Oktinfo();
+        okt.connect();
+        okt.PrintOkt(10);
     }
 }
 

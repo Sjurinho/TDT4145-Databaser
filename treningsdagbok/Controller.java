@@ -1,9 +1,9 @@
-package treningsdagbok; 
+package treningsdagbok;
 
 import java.sql.*;
 import java.util.*;
-import com.treningsdagbok.RegistrerKontroller;
-import com.treningsdagbok.Oktinfo;
+import treningsdagbok.RegistrerKontroller;
+import treningsdagbok.Oktinfo;
 
 public class Controller extends DBConn{
 	private PreparedStatement regStatement;
@@ -26,13 +26,13 @@ public class Controller extends DBConn{
 				hentInfo(); 
 				break; 
 			case 3:
-				//resultatlogg();
+				resultatlogg();
 				break;
 			case 4:
-				//grupper();
+				grupper();
 				break;
 			case 5:
-				//pr(); 
+				pr();
 				break;
 			default: 
 				System.out.println("Oi shit du maa skrive noe");
@@ -91,8 +91,6 @@ public class Controller extends DBConn{
         String b = scanner2.nextLine();
         System.out.println(b);
 
-
-		//Todo: Kjor funksjon med nytt apparat, input a og b
 		RegistrerKontroller regKtrl = new RegistrerKontroller();
 		regKtrl.connect();
         regKtrl.regApparat(aID, a, b); 
@@ -101,9 +99,13 @@ public class Controller extends DBConn{
 	private void registrerOvelse(){
 		Scanner scanner = new Scanner(System.in);
 
-		System.out.println("Skriv navnet paa ovelsen");
+		System.out.println("Skriv navnet pa ovelsen");
 		String a = scanner.next(); 
-
+		System.out.println("Finnes denne i en ovelsesgruppe? (1/0)");
+		int d = scanner.nextInt();
+		if (d == 1){
+			leggtilnygruppe();
+		}
 		System.out.println("Skriv 1 om ovelsen gjores med frivekter og 2 om ovelsen er paa et apparat.");
 		int b = scanner.nextInt(); 
 		switch(b){
@@ -117,7 +119,12 @@ public class Controller extends DBConn{
 				System.out.println("Oi shit du maa skrive gyldig");
 				hjelp();
 				break;
-		}
+        }
+        System.out.println("Skriv navnet paa ovelsesgruppen:");
+		String c = scanner.next();
+		ConnectController connCtrlN = new ConnectController();
+	    connCtrlN.connect();
+		connCtrlN.ConnectOvelsetoGruppe(c, a);
 	}
 
 	private void nyFriOvelse(String navn){
@@ -149,7 +156,8 @@ public class Controller extends DBConn{
         int OktID = scanner.nextInt();
 
 		System.out.println("Skriv aar paa okten");
-		int datoy = scanner.nextInt();
+		int dato1 = scanner.nextInt();
+		int datoy = dato1-1900;
 
 		System.out.println("Skriv maaned paa okten");
 		int datom = scanner.nextInt();
@@ -177,17 +185,31 @@ public class Controller extends DBConn{
 		System.out.println("Vurder din prestasjon (1-10)");
 		int d = scanner.nextInt(); 
 
-        /*
+
 		System.out.println("Vil du legge til et notat? Skriv 1 for ja");
 		int n = scanner.nextInt(); 
 
 		if (n == 1){
+			Scanner scannern = new Scanner(System.in);
 			System.out.println("Skriv litt om formaalet for denne okten");
-			String[] notat = scanner.next(); 
-			//Todo: Kjor funksjon som legger til notat
+			String notat = scannern.nextLine();
+
+			ConnectController connCtrlN = new ConnectController();
+			connCtrlN.connect();
+			connCtrlN.ConnectNotattoOkt(OktID,OktID,notat);
 		}
 
+
+
+		java.sql.Timestamp tidspunkt = new java.sql.Timestamp(10000000);
+
+		RegistrerKontroller regKtrl = new RegistrerKontroller();
+		regKtrl.connect();
+		regKtrl.regTreningsokt(OktID, date, tidspunkt, varighet, c, d);
+
 		System.out.println("Du skal naa legge til ovelser til denne okten, Skriv 0 for aa avslutte, et annet tall for aa legge til ny");
+
+
 
         
 		int leggtil = scanner.nextInt(); 
@@ -195,29 +217,23 @@ public class Controller extends DBConn{
 		while(leggtil > 0){
 			
 			System.out.println("Skriv inn navnet paa ovelsen");
+			Scanner scanner1 = new Scanner(System.in);
+			String navnov = scanner1.next();
 
-			String[] navnov = scanner.next(); 
-			// todo: if ovelse exist, hvis ikke legg til ny
-			
-			System.out.println("Skriv vekt paa ovelsen"); 
-			int vekt = scanner.nextInt();
-			
-			System.out.println("Skriv antall sett paa ovelsen"); 
-			int sett = scanner.nextInt();
+			System.out.println("Skriv vekten du tok");
+			int vekt = scanner1.nextInt();
 
-			//Todo: kjor dette inn i en funksjon som legger til ovelsen
+			System.out.println("Skriv antall sett");
+			int sett = scanner1.nextInt();
+
+			ConnectController connCtrl = new ConnectController();
+			connCtrl.connect();
+			connCtrl.ConnectOvelsetoOkt(OktID,sett,vekt, navnov);
 
 			System.out.println("0 for aa avslutte, annet tall for aa legge til fler");
 			leggtil = scanner.nextInt();
-		}
-        
-        // Tar vekk det over forelopig
-		*/
-		java.sql.Timestamp tidspunkt = new java.sql.Timestamp(10000000);
 
-		RegistrerKontroller regKtrl = new RegistrerKontroller();
-        regKtrl.connect();
-        regKtrl.regTreningsokt(OktID, date, tidspunkt, varighet, c, d);
+		}
 
 	}
 
@@ -225,27 +241,52 @@ public class Controller extends DBConn{
 	private void hentInfo(){
 		Scanner scanner = new Scanner(System.in);
 		System.out.println("Hvor mange okter vil du hente ut?");
-		int n = scanner.nextInt(); 
-		//Todo: Kjore func med usecase 2 med n i antall
+		int n = scanner.nextInt();
 		Oktinfo info = new Oktinfo();
 		info.connect();
         info.PrintOkt(n);
 	}
-    /*
+
 	private void resultatlogg(){
+
+
 		Scanner scanner = new Scanner(System.in);
-		System.out.println("Skriv navnet paa ovelsen du vil hente ut");
-		String[] navn = scanner.next(); 
 
-		System.out.println("Skriv startdatoen fra naar du vil hente ut resultatene:");
-		Date start = scanner.next();
+		System.out.println("Skriv ovelsen du vil hente ut info paa");
 
-		System.out.println("Skriv sluttdatoen fra naar du vil hente ut resultatene:");
-		Date slutt = scanner.next();
+		String ovelse = scanner.next();
 
-		//Todo: Kjor en funksjon med navn, start og slutt til usecase nr3
-		break;
-		
+		System.out.println("Start med aa skrive stardato, aar->mnd->dato");
+		System.out.println("aar:");
+
+		int dato1 = scanner.nextInt();
+		int st_datoy = dato1-1900;
+
+		System.out.println("Maned");
+		int st_datom = scanner.nextInt();
+
+		System.out.println("Dato");
+		int st_datod = scanner.nextInt();
+
+		System.out.println("Skriv deretter sluttdato, aar->mnd->dato");
+		System.out.println("aar:");
+
+		int dato2 = scanner.nextInt();
+		int sl_datoy = dato2-1900;
+
+		System.out.println("Maned");
+		int sl_datom = scanner.nextInt();
+
+		System.out.println("Dato");
+		int sl_datod = scanner.nextInt();
+
+		java.sql.Date date_start = new java.sql.Date(st_datoy,st_datom,st_datod);
+		java.sql.Date date_slutt = new java.sql.Date(sl_datoy,sl_datom,sl_datod);
+
+
+		Resultatlogg log = new Resultatlogg();
+		log.connect();
+		log.PrintResultatlogg(date_start,date_slutt,ovelse);
 	}
 
 	private void grupper(){
@@ -271,41 +312,42 @@ public class Controller extends DBConn{
 	private void leggtilnygruppe(){
 		Scanner scanner = new Scanner(System.in);
 		System.out.println("Skriv navnet paa gruppen du onsker aa legge til");
-		String[] gruppe = scanner.next(); 
+		String gruppe = scanner.next();
 
-		//Todo: Kjor funksjon som legger til gruppe
-
-		// Kanskje spor bruker om hvilke ovelser som skal legges til i denne gruppen? 
-		break;
+		RegistrerOvelsegruppeKontroller reg = new RegistrerOvelsegruppeKontroller();
+		reg.connect();
+		reg.RegistrerOvelsegruppe(gruppe);
 	}
 
 	private void sjekkgruppe(){
 
 		Scanner scanner = new Scanner(System.in);
 		System.out.println("Skriv navnet paa gruppen du onsker aa sjekke");
-		String[] gruppe = scanner.next(); 
-
-		//Todo: Kjor funksjon som sjekker gruppe
-		break; 
+		String gruppe = scanner.next();
+		RegistrerOvelsegruppeKontroller reg = new RegistrerOvelsegruppeKontroller();
+		reg.connect();
+		reg.PrintOvelseGruppeOvelser(gruppe);
 
 	}
 
 	private void pr(){
 		Scanner scanner = new Scanner(System.in);
 		System.out.println("Skriv navnet paa ovelsen du vil finne rekorden i");
-		String[] ovelse = scanner.next(); 
+		String ovelse = scanner.next();
 
 		//Todo: kjor func som henter pr
 
-		break; 
-		
-    }
-    */
+		Rekord pers = new Rekord();
+		pers.connect();
+		pers.PrintRekord(ovelse);
+	}
+	
+	public static void main(String[] args) {
+		Controller kjor = new Controller();
+		kjor.MenyController();
+	}
+
 
 
 
 }
-
-
-
-
