@@ -1,23 +1,18 @@
-package treningsdagbok;
+package treningsdagbok; 
 
 import java.sql.*;
+import java.sql.Date;
 import java.util.*;
-import treningsdagbok.RegistrerKontroller;
-import treningsdagbok.Oktinfo;
 
-public class Controller extends DBConn{
-	private PreparedStatement regStatement;
-	//private Connection conn;
+public class Meny extends DBConn{
+    private PreparedStatement regStatement;
 
-	public void MenyController() {
-		//this.conn = conn;
+    public void meny(){
+        menyvalg();
 
-		hjelp(); 
-
-		Scanner scanner = new Scanner(System.in);
+        Scanner scanner = new Scanner(System.in);
 		int a = scanner.nextInt();
 
-	
 		switch(a){
 			case 1:
 				registrer(); 
@@ -36,24 +31,14 @@ public class Controller extends DBConn{
 				break;
 			default: 
 				System.out.println("Oi shit du maa skrive noe");
-				hjelp();
-				break; 
-		}
+                menyvalg();
+                meny();
+                break;
+        }
 
-	}
-	
-	private void hjelp(){
-		System.out.println("Her kan du velge mellom 5 ulike use-cases. Disse er:");
-		System.out.println("1. Registrere apparater, ovelser og treningsokter med tilhorende data.");
-		System.out.println("2. Faa opp informasjon om et antall n sist gjennomforte treningsokter med notater, der n spesifiseres av brukeren.");
-		System.out.println("3. For hver enkelt ovelse skal det vaere mulig aa se en resultatlogg i et gitt tidsintervall spesifisert av brukeren.");
-		System.out.println("4. Lage ovelsegrupper og finne ovelser som er i samme gruppe.");
-		System.out.println("5. Hente ut personlig rekord i en valgt ovelse");
+    }
 
-		System.out.println("Skriv nummeret du onsker aa utfore");
-	}
-
-	private void registrer(){
+    private void registrer(){
 		System.out.println("Hva onsker du aa registrere?");
 		System.out.println("Skriv 1 for apparat, 2 for ovelse eller 3 for en ny treningsokt");
 
@@ -73,13 +58,13 @@ public class Controller extends DBConn{
 				break;
 			default: 
 				System.out.println("Oi shit du maa skrive noe");
-				hjelp();
+				menyvalg();
 				registrer();
 				break;
 		}
-	}
-	
-	private void registrerApp(){
+    }
+    
+    private void registrerApp(){
         Scanner scanner = new Scanner(System.in);
 
         System.out.println("Skriv ID paa apparatet");
@@ -95,9 +80,8 @@ public class Controller extends DBConn{
 		RegistrerKontroller regKtrl = new RegistrerKontroller();
 		regKtrl.connect();
         regKtrl.regApparat(aID, a, b); 
-	}
-
-
+    }
+    
 	private void registrerOvelse(){
 		Scanner scanner = new Scanner(System.in);
 
@@ -105,7 +89,7 @@ public class Controller extends DBConn{
 		String a = scanner.next(); 
 		System.out.println("Finnes denne i en ovelsesgruppe? (1/0)");
 		int d = scanner.nextInt();
-		if (d == 1){
+		if (d == 0){
 			leggtilnygruppe();
 		}
 		System.out.println("Skriv 1 om ovelsen gjores med frivekter og 2 om ovelsen er paa et apparat.");
@@ -119,7 +103,7 @@ public class Controller extends DBConn{
 				break; 
 			default: 
 				System.out.println("Oi shit du maa skrive gyldig");
-				hjelp();
+				menyvalg();
 				break;
         }
         System.out.println("Skriv navnet paa ovelsesgruppen:");
@@ -127,9 +111,9 @@ public class Controller extends DBConn{
 		ConnectController connCtrlN = new ConnectController();
 	    connCtrlN.connect();
 		connCtrlN.ConnectOvelsetoGruppe(c, a);
-	}
-
-	private void nyFriOvelse(String navn){
+    }
+    
+    private void nyFriOvelse(String navn){
 		Scanner scanner = new Scanner(System.in);
 		System.out.println("Skriv en beskrivelse paa ovelsen");
 		Scanner scanner2 = new Scanner(System.in);
@@ -138,10 +122,10 @@ public class Controller extends DBConn{
 		RegistrerKontroller regKtrl = new RegistrerKontroller();
 		regKtrl.connect();
         regKtrl.regOvelse(navn, a);
-	}
-
-	private void nyAppOvelse(String navn){
-		Scanner scanner = new Scanner(System.in);
+    }
+    
+    private void nyAppOvelse(String navn){
+        Scanner scanner = new Scanner(System.in);
 		System.out.println("Skriv inn ApparatID");
 		int a = scanner.nextInt();
 		System.out.println("Finnes apparatet i databasen? (1/0)");
@@ -152,9 +136,9 @@ public class Controller extends DBConn{
 			registrerApp();
 		}
 		regKtrl.regOvelse(navn, a);
-	}
-
-	//Kommenterer ut denne fordi jeg vet ikke hvordan jeg skal faa scannet sql
+    }
+    
+    	//Kommenterer ut denne fordi jeg vet ikke hvordan jeg skal faa scannet sql
 	private void registrerOkt(){
         Scanner scanner = new Scanner(System.in);
         
@@ -195,7 +179,14 @@ public class Controller extends DBConn{
 		System.out.println("Vil du legge til et notat? Skriv 1 for ja");
 		int n = scanner.nextInt(); 
 
-		if (n == 1){
+
+
+		java.sql.Timestamp tidspunkt = new java.sql.Timestamp(10000000);
+
+		RegistrerKontroller regKtrl = new RegistrerKontroller();
+		regKtrl.connect();
+		regKtrl.regTreningsokt(OktID, date, tidspunkt, varighet, c, d);
+        if (n == 1){
 			Scanner scannern = new Scanner(System.in);
 			System.out.println("Skriv litt om formaalet for denne okten");
 			String notat = scannern.nextLine();
@@ -204,16 +195,7 @@ public class Controller extends DBConn{
 			connCtrlN.connect();
 			connCtrlN.ConnectNotattoOkt(OktID,OktID,notat);
 		}
-
-
-
-		java.sql.Timestamp tidspunkt = new java.sql.Timestamp(10000000);
-
-		RegistrerKontroller regKtrl = new RegistrerKontroller();
-		regKtrl.connect();
-		regKtrl.regTreningsokt(OktID, date, tidspunkt, varighet, c, d);
-
-		System.out.println("Du skal naa legge til ovelser til denne okten, Skriv 0 for aa avslutte, et annet tall for aa legge til ny");
+        System.out.println("Du skal naa legge til ovelser til denne okten, Skriv 0 for aa avslutte, et annet tall for aa legge til ny");
 
 
 
@@ -347,13 +329,20 @@ public class Controller extends DBConn{
 		pers.connect();
 		pers.PrintRekord(ovelse);
 	}
-	
-	public static void main(String[] args) {
-		Controller kjor = new Controller();
-		kjor.MenyController();
-	}
 
+    private void menyvalg(){
+		System.out.println("Her kan du velge mellom 5 ulike use-cases. Disse er:");
+		System.out.println("1. Registrere apparater, ovelser og treningsokter med tilhorende data.");
+		System.out.println("2. Faa opp informasjon om et antall n sist gjennomforte treningsokter med notater, der n spesifiseres av brukeren.");
+		System.out.println("3. For hver enkelt ovelse skal det vaere mulig aa se en resultatlogg i et gitt tidsintervall spesifisert av brukeren.");
+		System.out.println("4. Lage ovelsegrupper og finne ovelser som er i samme gruppe.");
+		System.out.println("5. Hente ut personlig rekord i en valgt ovelse");
 
-
-
+		System.out.println("Skriv nummeret du onsker aa utfore");
+    }
+    
+    public static void main(String[] args) {
+        Meny menu = new Meny();
+        menu.meny();
+    }
 }

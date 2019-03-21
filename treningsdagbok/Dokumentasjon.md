@@ -3,9 +3,9 @@
 ## Klasser
 
 ### RegistrerKontroller
- - Har ansvaret for registrering av tabellene *Apparater*, *Øvelser*, *Treningsøkter* og *Notat*, spesialiseringene *Apparatøvelse* og *FriØvelse*, samt registrering av relasjonstabellene *Treningsøktøvelse* og *Øvelsesgruppetilhørighet*
-### RegistrerOvelsergruppe
-- Tar seg av registrering og uthenting av info fra *Øvelsesgruppe*.
+ - Har ansvaret for registrering av tabellene *Apparater*, *Øvelser*, *Treningsøkter* og *Notat*, spesialiseringene *Apparatøvelse* og *FriØvelse*, samt registrering av relasjonstabellene *Treningsøktøvelse* og 
+### ConnectController
+- Tar seg av registrering og uthenting av info fra *Øvelsesgruppe* og relasjonsdatabasen *Øvelsesgruppetilhørighet*.
 ### Oktinfo
 - Tar seg av spørringen om et antall n siste gjennomførte økter med tilhørende notater.
 ### Rekord

@@ -18,7 +18,7 @@ public class Oktinfo extends DBConn{
             System.out.format("+-------+------------+-------------------------+----------+----------------+------------+---------+----------------------+%n");
             System.out.format("| OktID | Dato       | Tidspunkt               | Varighet | Personlig form | Prestasjon | NotatID | Formal               |%n");
             System.out.format("+-------+------------+-------------------------+----------+----------------+------------+---------+----------------------+%n");
-            while (nr <= N) {
+            for (int i=0; i<N; i++) {
                 if (!rs.next()){
                     break;
                 }

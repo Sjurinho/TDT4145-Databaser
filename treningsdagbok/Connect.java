@@ -2,8 +2,7 @@ package treningsdagbok;
 
 import java.sql.*;
 import java.util.*;
-import com.treningsdagbok.RegistrerKontroller;
-import com.treningsdagbok.Oktinfo;
+
 
 public class Controller extends DBConn{
 	private PreparedStatement regStatement;

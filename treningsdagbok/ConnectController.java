@@ -7,7 +7,7 @@ public class ConnectController extends DBConn{
     private PreparedStatement regStatement;
 
     public void ConnectOvelsetoOkt(int OktID, int AntallSett, int AntallKilo, String Ovelsesnavn){
-        final String sql = "INSERT INTO TreningsoktOvelse VALUES((?), (?), (?), (?))";
+        final String sql = "INSERT INTO Treningsoktovelse VALUES((?), (?), (?), (?))";
         try {
             regStatement = conn.prepareStatement(sql);
             regStatement.setInt(1, OktID);
@@ -22,7 +22,7 @@ public class ConnectController extends DBConn{
     }
 
     public void ConnectOvelsetoGruppe(String Ovelsegruppenavn, String Ovelsenavn){
-        final String sql = "INSERT INTO Ovelsegruppetilhorighet(Ovelsegruppenavn, Ovelsenavn)" + "VALUES((?), (?))";
+        final String sql = "INSERT INTO Ovelsegruppetilhorighet(Ovelsegruppenavn, Ovelsesnavn)" + "VALUES((?), (?))";
         try {
             regStatement = conn.prepareStatement(sql);
             regStatement.setString(1, Ovelsegruppenavn);

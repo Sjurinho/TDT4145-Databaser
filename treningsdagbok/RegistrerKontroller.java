@@ -45,12 +45,13 @@ public class RegistrerKontroller extends DBConn{
         }
         //FriOvelse(beskrivelse)
         try {
-            regStatement = conn.prepareStatement("INSERT INTO FriOvelse VALUES ((?))");
+            regStatement = conn.prepareStatement("INSERT INTO FriOvelse VALUES ((?), (?))");
         } catch (Exception e) {
             System.out.println("db error during prepare of insert into FriOvelse");
         }
         try {
-            regStatement.setString(1, beskrivelse);
+            regStatement.setString(1, Ovelsesnavn);
+            regStatement.setString(2, beskrivelse);
             regStatement.execute();
         } catch (Exception e) {
             System.out.println("db error during insert of FriOvelse");
